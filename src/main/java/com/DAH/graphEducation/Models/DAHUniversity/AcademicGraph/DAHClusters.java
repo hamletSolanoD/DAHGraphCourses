@@ -2,15 +2,20 @@ package com.DAH.graphEducation.Models.DAHUniversity.AcademicGraph;
 
 import java.util.Date;
 import java.util.List;
-
+import com.DAH.graphEducation.Models.DAHUniversity.GraphUtilities.ToolsTypes;
 import com.DAH.graphEducation.Models.Users.DAHUser;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToMany;
+
+@Entity
 public class DAHClusters {
 
     private String income_profile;
     
     private String outcome_profile;
 
+    @ManyToMany
     private List<ToolsTypes> required_tools;
 
     private String code;
@@ -135,13 +140,13 @@ public class DAHClusters {
         this.secuential_blocked = secuential_blocked;
     }
 
+    public List<DAHUser> getLikes() {
+        return this.likes;
+    }
 
-
-
-
-
-
-
+    public void setLikes(List<DAHUser> likes) {
+        this.likes = likes;
+    }
 
 
     

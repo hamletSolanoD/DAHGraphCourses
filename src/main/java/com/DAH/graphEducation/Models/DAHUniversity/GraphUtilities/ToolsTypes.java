@@ -1,5 +1,7 @@
-package com.DAH.graphEducation.Models.DAHUniversity.AcademicGraph;
+package com.DAH.graphEducation.Models.DAHUniversity.GraphUtilities;
+import jakarta.persistence.Entity;
 
+@Entity
 public class ToolsTypes {
 
     String name;
