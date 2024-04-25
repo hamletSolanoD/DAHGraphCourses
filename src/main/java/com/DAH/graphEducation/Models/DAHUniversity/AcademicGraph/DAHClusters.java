@@ -31,6 +31,8 @@ public class DAHClusters {
 
     private Boolean secuential_blocked;//if true you cant open the next node until you finish the previous one.
 
+    private List<DAHUser> likes;
+
 
 
     public String getIncome_profile() {

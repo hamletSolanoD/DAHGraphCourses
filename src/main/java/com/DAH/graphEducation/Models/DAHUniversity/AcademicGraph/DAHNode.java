@@ -3,8 +3,8 @@ package com.DAH.graphEducation.Models.DAHUniversity.AcademicGraph;
 import java.util.Date;
 import java.util.List;
 
-import com.DAH.graphEducation.Models.DAHUniversity.DAHAcademic;
-import com.DAH.graphEducation.Models.DAHUniversity.DAHMaster;
+import com.DAH.graphEducation.Models.Users.DAHUser;
+import com.DAH.graphEducation.Models.Users.DAHVenue;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToMany;
@@ -15,10 +15,10 @@ public class DAHNode {
 
 
     @ManyToOne
-    private DAHMaster master;
+    private DAHUser master;
     
     @ManyToMany
-    private List<DAHAcademic> academics;
+    private List<DAHUser> academics;
 
     private String code;
 
@@ -40,6 +40,27 @@ public class DAHNode {
     private List<DAHNode> prerequisites;
 
     private List<DAHNode> suggested_follow_ups;
+
+    private int priority;//when sequential actived it will order the nodes by its priority
+
+    private List<DAHUser> likes;
+
+    private List<NodeCommentaries> commentaries;// recommended practices will be posted here by its owners.
+
+    private List<DAHUser> users_who_finished;
+
+    private boolean presencial_activity;
+
+    private boolean DAHUser_approvment_required;
+
+    private DAHVenue venue;//if PresencialActivity is true this will be the place where the activity will be held;
+
+
+
+
+
+
+
 
 
 

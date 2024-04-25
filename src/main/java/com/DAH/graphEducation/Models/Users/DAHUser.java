@@ -6,8 +6,8 @@ import java.util.List;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 
-import com.DAH.graphEducation.Models.DAHUniversity.DAHAcademic;
-import com.DAH.graphEducation.Models.DAHUniversity.DAHMaster;
+import com.DAH.graphEducation.Models.DAHUniversity.AcademicGraph.DAHClusters;
+import com.DAH.graphEducation.Models.DAHUniversity.AcademicGraph.DAHNode;
 import com.DAH.graphEducation.Models.Users.Ofices.DAHOffice;
 
 import jakarta.persistence.CascadeType;
@@ -18,7 +18,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
@@ -45,14 +44,14 @@ public class DAHUser {
      @JoinColumn(name = "wor_id") })
    private List<DAHOffice> my_offices;
 
+   @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
+   private List<DAHNode> my_nodes;
 
-   @OneToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH })
-     @JoinColumn(name = "wor_id") 
-   private DAHMaster my_master;
+   
+   @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
+   private List<DAHClusters> my_clusters;
 
-   @OneToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH })
-     @JoinColumn(name = "wor_id") 
-   private DAHAcademic my_academic;
+
 
 
 
