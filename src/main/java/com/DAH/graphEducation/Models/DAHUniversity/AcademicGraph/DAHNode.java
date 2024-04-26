@@ -4,7 +4,6 @@ import java.util.Date;
 import java.util.List;
 
 import com.DAH.graphEducation.Models.DAHUniversity.GraphUtilities.NodeCommentaries;
-import com.DAH.graphEducation.Models.Users.DAHUser;
 import com.DAH.graphEducation.Models.Users.DAHVenue;
 
 import jakarta.persistence.Entity;
@@ -12,9 +11,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 
 @Entity
 // un cluster esta compuesto por nodes pero un node puede ser 
@@ -35,32 +31,29 @@ public class DAHNode {
     private Date updated_at;
 
     private String status;
-// tiempo estimado de duracion
+    // tiempo estimado de duracion
     private Date estimated_investment_time;
+    // TODO: Correcion de relaciones  (explicaicon)
+    
+    @OneToMany
+    // nos estamos llamando a nosotros mismo por que el atributo prerequisites de un nodo puede tener como su valor muchos nodos, si el nodo que existe como valor de otro nodo esta bloqueado, el nodo padre estara bloqueado tambien
+    // Ver el atributo blocked
+    private List<DAHNode> prerequisites;
 
-    @ManyToMany
-    @JoinTable(
-        name = "node_prerequisites",
-        joinColumns = @JoinColumn(name = "node_id"), 
-        inverseJoinColumns = @JoinColumn(name = "prerequisite_node_id")
-    )
-    private List<DAHNode> prerequisites; 
-
-    @ManyToMany(mappedBy = "prerequisite_node_id")
-    private List<DAHUser> father_prerequisite = null; 
-
+    // relacion de mi tabla a muchos nodos recomendados
     @OneToMany
     private List<DAHNode> suggested_follow_ups;
 
     private int priority;//when sequential actived it will order the nodes by its priority
 
     @OneToMany
+    // NodeCommentaries es entidad 
     private List<NodeCommentaries> commentaries;// recommended practices will be posted here by its owners.
 
     private boolean presencial_activity;
 
     private boolean DAHUser_approvment_required;
-
+    // TODO: Correcion: 
     private DAHVenue venue;//if PresencialActivity is true this will be the place where the activity will be held;
 
 

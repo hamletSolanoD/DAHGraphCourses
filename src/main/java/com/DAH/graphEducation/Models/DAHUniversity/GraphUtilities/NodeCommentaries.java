@@ -11,6 +11,7 @@ import jakarta.persistence.Id;
 
 @Entity
 public class NodeCommentaries {
+    // TODO: Configurar listas
     private @Id @GeneratedValue(strategy = GenerationType.IDENTITY) Long id;
     private String tittle;
     private String description;
