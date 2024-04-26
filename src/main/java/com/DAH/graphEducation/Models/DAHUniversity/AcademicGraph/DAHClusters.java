@@ -51,6 +51,8 @@ public class DAHClusters {
 
     private String status;
 
+    private Boolean is_sequential_order_by_priority; // si es secuencial o no
+
     @ManyToMany // el tipo de relacion muchos a muchos 
     // crea una tabla in termedia
     @JoinTable(
