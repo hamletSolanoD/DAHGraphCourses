@@ -1,11 +1,15 @@
 package com.DAH.graphEducation.Models.Users.Ofices;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Id;
 
 @Entity
 public class DAHOficeType {
+        private @Id @GeneratedValue(strategy = GenerationType.IDENTITY) Long id;
 
         private String code;
         private String name;
@@ -14,6 +18,15 @@ public class DAHOficeType {
         @JoinColumn(name = "dah_generation_id")
         private DAHGeneration generation;
 
+
+
+        public Long getId() {
+                return this.id;
+        }
+
+        public void setId(Long id) {
+                this.id = id;
+        }
 
         public String getCode() {
                 return this.code;

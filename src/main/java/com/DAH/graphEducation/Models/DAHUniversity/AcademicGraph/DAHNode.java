@@ -4,22 +4,17 @@ import java.util.Date;
 import java.util.List;
 
 import com.DAH.graphEducation.Models.DAHUniversity.GraphUtilities.NodeCommentaries;
-import com.DAH.graphEducation.Models.Users.DAHUser;
 import com.DAH.graphEducation.Models.Users.DAHVenue;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Id;
 
 @Entity
 public class DAHNode {
-
-
-    @ManyToOne
-    private DAHUser master;
-    
-    @ManyToMany
-    private List<DAHUser> academics;
+    private @Id @GeneratedValue(strategy = GenerationType.IDENTITY) Long id;
 
     private String code;
 
@@ -38,17 +33,16 @@ public class DAHNode {
 
     private Date estimated_investment_time;
 
+    @OneToMany
     private List<DAHNode> prerequisites;
 
+    @OneToMany
     private List<DAHNode> suggested_follow_ups;
 
     private int priority;//when sequential actived it will order the nodes by its priority
 
-    private List<DAHUser> likes;
-
+    @OneToMany
     private List<NodeCommentaries> commentaries;// recommended practices will be posted here by its owners.
-
-    private List<DAHUser> users_who_finished;
 
     private boolean presencial_activity;
 
@@ -58,22 +52,6 @@ public class DAHNode {
 
 
 
-
-    public DAHUser getMaster() {
-        return this.master;
-    }
-
-    public void setMaster(DAHUser master) {
-        this.master = master;
-    }
-
-    public List<DAHUser> getAcademics() {
-        return this.academics;
-    }
-
-    public void setAcademics(List<DAHUser> academics) {
-        this.academics = academics;
-    }
 
     public String getCode() {
         return this.code;
@@ -167,14 +145,7 @@ public class DAHNode {
         this.priority = priority;
     }
 
-    public List<DAHUser> getLikes() {
-        return this.likes;
-    }
-
-    public void setLikes(List<DAHUser> likes) {
-        this.likes = likes;
-    }
-
+   
     public List<NodeCommentaries> getCommentaries() {
         return this.commentaries;
     }
@@ -183,13 +154,6 @@ public class DAHNode {
         this.commentaries = commentaries;
     }
 
-    public List<DAHUser> getUsers_who_finished() {
-        return this.users_who_finished;
-    }
-
-    public void setUsers_who_finished(List<DAHUser> users_who_finished) {
-        this.users_who_finished = users_who_finished;
-    }
 
     public boolean isPresencial_activity() {
         return this.presencial_activity;
@@ -222,6 +186,15 @@ public class DAHNode {
     public void setVenue(DAHVenue venue) {
         this.venue = venue;
     }
+
+    public Long getId() {
+        return this.id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
 
 
 

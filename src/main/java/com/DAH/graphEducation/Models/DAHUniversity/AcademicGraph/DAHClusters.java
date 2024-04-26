@@ -3,24 +3,33 @@ package com.DAH.graphEducation.Models.DAHUniversity.AcademicGraph;
 import java.util.Date;
 import java.util.List;
 import com.DAH.graphEducation.Models.DAHUniversity.GraphUtilities.ToolsTypes;
-import com.DAH.graphEducation.Models.Users.DAHUser;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 
 @Entity
 public class DAHClusters {
+
+    private @Id @GeneratedValue(strategy = GenerationType.IDENTITY) Long id;  
 
     private String income_profile;
     
     private String outcome_profile;
 
     @ManyToMany
+    @JoinTable(
+        name = "cluster_required_tools",
+        joinColumns = @JoinColumn(name = "cluster_id"),
+        inverseJoinColumns = @JoinColumn(name = "tools_types_id")
+    )
     private List<ToolsTypes> required_tools;
 
     private String code;
-
-    private DAHUser owner;
 
     private String description;
 
@@ -32,13 +41,15 @@ public class DAHClusters {
 
     private String status;
 
+    @ManyToMany
+    @JoinTable(
+        name = "cluster_nodes",
+        joinColumns = @JoinColumn(name = "cluster_id"), 
+        inverseJoinColumns = @JoinColumn(name = "node_id") 
+    )
     private List<DAHNode> nodes;
 
     private Boolean secuential_blocked;//if true you cant open the next node until you finish the previous one.
-
-    private List<DAHUser> likes;
-
-
 
     public String getIncome_profile() {
         return this.income_profile;
@@ -70,14 +81,6 @@ public class DAHClusters {
 
     public void setCode(String code) {
         this.code = code;
-    }
-
-    public DAHUser getOwner() {
-        return this.owner;
-    }
-
-    public void setOwner(DAHUser owner) {
-        this.owner = owner;
     }
 
     public String getDescription() {
@@ -140,12 +143,12 @@ public class DAHClusters {
         this.secuential_blocked = secuential_blocked;
     }
 
-    public List<DAHUser> getLikes() {
-        return this.likes;
+    public Long getId() {
+        return this.id;
     }
 
-    public void setLikes(List<DAHUser> likes) {
-        this.likes = likes;
+    public void setId(Long id) {
+        this.id = id;
     }
 
 

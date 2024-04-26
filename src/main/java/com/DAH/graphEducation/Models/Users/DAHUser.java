@@ -8,7 +8,6 @@ import org.springframework.format.annotation.DateTimeFormat.ISO;
 
 import com.DAH.graphEducation.Models.DAHUniversity.AcademicGraph.DAHClusters;
 import com.DAH.graphEducation.Models.DAHUniversity.AcademicGraph.DAHNode;
-import com.DAH.graphEducation.Models.Users.Ofices.DAHOffice;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -33,22 +32,84 @@ public class DAHUser {
     @Temporal(TemporalType.TIMESTAMP)
     private Date created_at;
 
-     @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH })
-    @JoinTable(name = "aqn_wor", joinColumns = { @JoinColumn(name = "aqn_id") }, inverseJoinColumns = {
-      @JoinColumn(name = "wor_id") })
-   private List<DAHVenue> my_venius;//where i'm involved
-
-   @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH })
-   @JoinTable(name = "aqn_wor", joinColumns = { @JoinColumn(name = "aqn_id") }, inverseJoinColumns = {
-     @JoinColumn(name = "wor_id") })
-   private List<DAHOffice> my_offices;
-
    @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
-   private List<DAHNode> my_nodes;
+   @JoinTable(name = "user_master_nodes", joinColumns = { @JoinColumn(name = "dah_user_id") }, inverseJoinColumns = {
+    @JoinColumn(name = "dah_node_id") })
+   private List<DAHNode> my_nodes; // nodes where im master
 
    
    @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
+   @JoinTable(name = "users_clusters", joinColumns = { @JoinColumn(name = "dah_user_id") }, inverseJoinColumns = {
+    @JoinColumn(name = "dah_cluster_id") })
    private List<DAHClusters> my_clusters;
+
+   
+   @ManyToMany
+   @JoinTable(
+       name = "user_active_nodes", // nombre de la tabla de unión
+       joinColumns = @JoinColumn(name = "user_id"), // clave foránea para DAHUser
+       inverseJoinColumns = @JoinColumn(name = "node_id") // clave foránea para DAHNode
+   )
+   private List<DAHNode> academic_nodes; // Nodos en los que este usuario está involucrado académicamente actualmente.
+
+   @ManyToMany
+   @JoinTable
+   (
+    name = "user_completed_nodes",
+    joinColumns = @JoinColumn(name = "user_id"),
+    inverseJoinColumns = @JoinColumn(name = "node_id")
+   )
+    private List<DAHNode> completed_nodes; // Nodos que este usuario ha completado.
+    
+
+private String profile_picture;
+
+private String cover_picture;
+
+private String description;
+
+
+private String phone_number;
+@ManyToMany
+    @JoinTable(
+        name = "user_following",
+        joinColumns = @JoinColumn(name = "follower_id"), 
+        inverseJoinColumns = @JoinColumn(name = "followed_id")
+    )
+    private List<DAHUser> following; 
+
+    @ManyToMany(mappedBy = "following")
+    private List<DAHUser> followers; 
+
+@ManyToMany
+@JoinTable(
+    name = "user_likes_clusters",
+    joinColumns = @JoinColumn(name = "user_id"), 
+    inverseJoinColumns = @JoinColumn(name = "cluster_id") 
+)
+private List<DAHClusters> liked_clusters; 
+
+
+
+@ManyToMany
+@JoinTable(
+    name = "liked_nodes",
+    joinColumns = @JoinColumn(name = "user_id"),
+    inverseJoinColumns = @JoinColumn(name = "node_id")
+)
+private List<DAHNode> liked_nodes;
+
+@ManyToMany
+@JoinTable(
+    name = "liked_venues",
+    joinColumns = @JoinColumn(name = "user_id"),
+    inverseJoinColumns = @JoinColumn(name = "venue_id")
+)
+private List<DAHVenue> liked_venues;
+
+
+
+
 
 
 
@@ -101,22 +162,6 @@ public class DAHUser {
     this.created_at = created_at;
   }
 
-  public List<DAHVenue> getMy_venius() {
-    return this.my_venius;
-  }
-
-  public void setMy_venius(List<DAHVenue> my_venius) {
-    this.my_venius = my_venius;
-  }
-
-  public List<DAHOffice> getMy_offices() {
-    return this.my_offices;
-  }
-
-  public void setMy_offices(List<DAHOffice> my_offices) {
-    this.my_offices = my_offices;
-  }
-
   public List<DAHNode> getMy_nodes() {
     return this.my_nodes;
   }
@@ -132,6 +177,98 @@ public class DAHUser {
   public void setMy_clusters(List<DAHClusters> my_clusters) {
     this.my_clusters = my_clusters;
   }
+
+
+  public List<DAHNode> getAcademic_nodes() {
+    return this.academic_nodes;
+  }
+
+  public void setAcademic_nodes(List<DAHNode> academic_nodes) {
+    this.academic_nodes = academic_nodes;
+  }
+
+  public List<DAHNode> getCompleted_nodes() {
+    return this.completed_nodes;
+  }
+
+  public void setCompleted_nodes(List<DAHNode> completed_nodes) {
+    this.completed_nodes = completed_nodes;
+  }
+
+  public String getProfile_picture() {
+    return this.profile_picture;
+  }
+
+  public void setProfile_picture(String profile_picture) {
+    this.profile_picture = profile_picture;
+  }
+
+  public String getCover_picture() {
+    return this.cover_picture;
+  }
+
+  public void setCover_picture(String cover_picture) {
+    this.cover_picture = cover_picture;
+  }
+
+  public String getDescription() {
+    return this.description;
+  }
+
+  public void setDescription(String description) {
+    this.description = description;
+  }
+
+  public String getPhone_number() {
+    return this.phone_number;
+  }
+
+  public void setPhone_number(String phone_number) {
+    this.phone_number = phone_number;
+  }
+
+  public List<DAHUser> getFollowers() {
+    return this.followers;
+  }
+
+  public void setFollowers(List<DAHUser> followers) {
+    this.followers = followers;
+  }
+
+
+  public List<DAHUser> getFollowing() {
+    return this.following;
+  }
+
+  public void setFollowing(List<DAHUser> following) {
+    this.following = following;
+  }
+
+
+  public List<DAHClusters> getLiked_clusters() {
+    return this.liked_clusters;
+  }
+
+  public void setLiked_clusters(List<DAHClusters> liked_clusters) {
+    this.liked_clusters = liked_clusters;
+  }
+
+  public List<DAHNode> getLiked_nodes() {
+    return this.liked_nodes;
+  }
+
+  public void setLiked_nodes(List<DAHNode> liked_nodes) {
+    this.liked_nodes = liked_nodes;
+  }
+
+  public List<DAHVenue> getLiked_venues() {
+    return this.liked_venues;
+  }
+
+  public void setLiked_venues(List<DAHVenue> liked_venues) {
+    this.liked_venues = liked_venues;
+  }
+
 
 
 
