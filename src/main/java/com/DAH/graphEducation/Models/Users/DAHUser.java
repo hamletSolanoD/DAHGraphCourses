@@ -8,6 +8,7 @@ import org.springframework.format.annotation.DateTimeFormat.ISO;
 
 import com.DAH.graphEducation.Models.DAHUniversity.AcademicGraph.DAHClusters;
 import com.DAH.graphEducation.Models.DAHUniversity.AcademicGraph.DAHNode;
+import com.DAH.graphEducation.Models.Users.Offices.DAHGeneration;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -17,6 +18,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 
@@ -30,14 +32,16 @@ public class DAHUser {
 
     @DateTimeFormat(iso = ISO.DATE_TIME)
     @Temporal(TemporalType.TIMESTAMP)
-    private Date created_at;
-
+    private Date created_at = new Date();
+  // Relacion para los nodos donde soy master, soy master al crear un nodo, puedo ser master de un nodo sin ser master de un cluster
    @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
-   @JoinTable(name = "user_master_nodes", joinColumns = { @JoinColumn(name = "dah_user_id") }, inverseJoinColumns = {
-    @JoinColumn(name = "dah_node_id") })
+   @JoinTable(
+    name = "user_master_nodes",
+    joinColumns = { @JoinColumn(name = "dah_user_id") }, 
+    inverseJoinColumns = {@JoinColumn(name = "dah_node_id") })
    private List<DAHNode> my_nodes; // nodes where im master
 
-   
+   // Relacion para los clusters donde soy master, soy master al crear un cluster, 
    @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
    @JoinTable(name = "users_clusters", joinColumns = { @JoinColumn(name = "dah_user_id") }, inverseJoinColumns = {
     @JoinColumn(name = "dah_cluster_id") })
@@ -50,8 +54,8 @@ public class DAHUser {
        joinColumns = @JoinColumn(name = "user_id"), // clave foránea para DAHUser
        inverseJoinColumns = @JoinColumn(name = "node_id") // clave foránea para DAHNode
    )
-   private List<DAHNode> academic_nodes; // Nodos en los que este usuario está involucrado académicamente actualmente.
-
+   private List<DAHNode> academic_nodes; // Nodos en los que este usuario está involucrado académicamente actualmente. My follow up of Nodes
+    // ? FEAT: Clusters completos 
    @ManyToMany
    @JoinTable
    (
@@ -60,6 +64,8 @@ public class DAHUser {
     inverseJoinColumns = @JoinColumn(name = "node_id")
    )
     private List<DAHNode> completed_nodes; // Nodos que este usuario ha completado.
+    @OneToOne
+    private DAHGeneration generation;
     
 
 private String profile_picture;
@@ -70,6 +76,7 @@ private String description;
 
 
 private String phone_number;
+// TODO: Implementar la relación de seguidores y seguidos
 @ManyToMany
     @JoinTable(
         name = "user_following",
@@ -93,7 +100,7 @@ private List<DAHClusters> liked_clusters;
 
 @ManyToMany
 @JoinTable(
-    name = "liked_nodes",
+    name = "user_liked_nodes",
     joinColumns = @JoinColumn(name = "user_id"),
     inverseJoinColumns = @JoinColumn(name = "node_id")
 )
@@ -101,7 +108,7 @@ private List<DAHNode> liked_nodes;
 
 @ManyToMany
 @JoinTable(
-    name = "liked_venues",
+    name = "user_liked_venues",
     joinColumns = @JoinColumn(name = "user_id"),
     inverseJoinColumns = @JoinColumn(name = "venue_id")
 )

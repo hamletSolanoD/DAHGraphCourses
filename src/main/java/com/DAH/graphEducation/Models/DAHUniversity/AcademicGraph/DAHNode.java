@@ -19,8 +19,7 @@ public class DAHNode {
 
     private String code;
 
-    private boolean blocked; // if a DAHNode is blocked and one other DAHNode has its prerequisites
-    //the one with blocked only the ones with the complete prerequisites will be able to open it.
+    private boolean blocked; // ver relacion List<DahNode> prerequisites
     
     private String title;
 
@@ -33,7 +32,7 @@ public class DAHNode {
     private String status;
     // tiempo estimado de duracion
     private Date estimated_investment_time;
-    // TODO: Correcion de relaciones  (explicaicon)
+    // TODO: Correcion de relaciones  (explicaicon) ver modelo DAHUser en relacion followers
     
     @OneToMany
     // nos estamos llamando a nosotros mismo por que el atributo prerequisites de un nodo puede tener como su valor muchos nodos, si el nodo que existe como valor de otro nodo esta bloqueado, el nodo padre estara bloqueado tambien
@@ -43,17 +42,21 @@ public class DAHNode {
     // relacion de mi tabla a muchos nodos recomendados
     @OneToMany
     private List<DAHNode> suggested_follow_ups;
-
+    // ver modelo DAHClusters.java atributo is_sequential_order_by_priority
+    // si el dahcluster es secuencial lo ordenara por prioridad
+    // TODO: establcer el estandar de ptrioridad para los nodos en controller
     private int priority;//when sequential actived it will order the nodes by its priority
 
     @OneToMany
-    // NodeCommentaries es entidad 
-    private List<NodeCommentaries> commentaries;// recommended practices will be posted here by its owners.
+    // TODO: Establecer la diferencia entre submit de proyecto y comentarios 
+    // NodeCommentaries es entidad, es un foro en el nodo y esta definido en modelo:NodeCommentaries.java
+    // el comentario puede un submit de proyecto ("practica recomendadada" en planeaciones) o un comentario del nodo 
+    private List<NodeCommentaries> commentaries;
 
-    private boolean presencial_activity;
+    private boolean presencial_activity; 
 
     private boolean DAHUser_approvment_required;
-    // TODO: Correcion: 
+    // TODO: Correcion 
     private DAHVenue venue;//if PresencialActivity is true this will be the place where the activity will be held;
 
 

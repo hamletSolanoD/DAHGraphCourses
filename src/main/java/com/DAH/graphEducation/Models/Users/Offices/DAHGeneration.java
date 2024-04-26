@@ -1,9 +1,9 @@
-package com.DAH.graphEducation.Models.Users.Ofices;
+package com.DAH.graphEducation.Models.Users.Offices;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-
+// Niveles de avances de los usuarios
 @Entity
 public class DAHGeneration {
     private @Id @GeneratedValue(strategy = GenerationType.IDENTITY) Long id;

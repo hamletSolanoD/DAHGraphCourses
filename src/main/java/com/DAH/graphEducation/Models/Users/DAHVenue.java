@@ -14,11 +14,12 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
-
+// Comunidades
 @Entity
 public class DAHVenue {
 
    public enum VenueType {
+      // ennums 
       PUBLIC_GROUP("Public Group", (short) 1),
       UNIVERSITY("University", (short) 2),                           
       HIGH_SCHOOL("High School", (short) 3),
