@@ -17,6 +17,7 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 
 @Entity
+// un cluster esta compuesto por nodes pero un node puede ser 
 public class DAHNode {
     private @Id @GeneratedValue(strategy = GenerationType.IDENTITY) Long id;
 
@@ -29,12 +30,12 @@ public class DAHNode {
 
     private String description;
 
-    private Date created_at;
+    private Date created_at = new Date();
 
     private Date updated_at;
 
     private String status;
-
+// tiempo estimado de duracion
     private Date estimated_investment_time;
 
     @ManyToMany
