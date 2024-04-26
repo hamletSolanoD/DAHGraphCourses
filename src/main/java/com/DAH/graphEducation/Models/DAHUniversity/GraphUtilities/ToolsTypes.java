@@ -11,6 +11,17 @@ public class ToolsTypes {
     String code;
     String description;
     String title;
+    String href;
+
+
+    public String getHref() {
+        return this.href;
+    }
+
+    public void setHref(String href) {
+        this.href = href;
+    }
+
         
 
     public Long getId() {

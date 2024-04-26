@@ -49,8 +49,6 @@ public class DAHClusters {
     )
     private List<DAHNode> nodes;
 
-    private Boolean secuential_blocked;//if true you cant open the next node until you finish the previous one.
-
     public String getIncome_profile() {
         return this.income_profile;
     }
@@ -129,18 +127,6 @@ public class DAHClusters {
 
     public void setNodes(List<DAHNode> nodes) {
         this.nodes = nodes;
-    }
-
-    public Boolean isSecuential_blocked() {
-        return this.secuential_blocked;
-    }
-
-    public Boolean getSecuential_blocked() {
-        return this.secuential_blocked;
-    }
-
-    public void setSecuential_blocked(Boolean secuential_blocked) {
-        this.secuential_blocked = secuential_blocked;
     }
 
     public Long getId() {

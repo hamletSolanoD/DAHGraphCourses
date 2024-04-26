@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.DAH.graphEducation.Models.DAHUniversity.GraphUtilities.NodeCommentaries;
+import com.DAH.graphEducation.Models.Users.DAHUser;
 import com.DAH.graphEducation.Models.Users.DAHVenue;
 
 import jakarta.persistence.Entity;
@@ -11,6 +12,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 
 @Entity
 public class DAHNode {
@@ -33,8 +37,16 @@ public class DAHNode {
 
     private Date estimated_investment_time;
 
-    @OneToMany
-    private List<DAHNode> prerequisites;
+    @ManyToMany
+    @JoinTable(
+        name = "node_prerequisites",
+        joinColumns = @JoinColumn(name = "node_id"), 
+        inverseJoinColumns = @JoinColumn(name = "prerequisite_node_id")
+    )
+    private List<DAHNode> prerequisites; 
+
+    @ManyToMany(mappedBy = "prerequisite_node_id")
+    private List<DAHUser> father_prerequisite = null; 
 
     @OneToMany
     private List<DAHNode> suggested_follow_ups;
